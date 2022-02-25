@@ -7,13 +7,27 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+protocol VCDelegate: AnyObject {
+    func update(text: String)
+}
 
+class ViewController: UIViewController, VCDelegate {
+    
+    @IBOutlet weak var myButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
-
-
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destination = segue.destination as? SecondViewController {
+            destination.delegate = self
+        }
+    }
+    
+    func update(text: String) {
+        myButton.setTitle(text, for: .normal)
+    }
 }
 
